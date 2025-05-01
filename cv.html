@@ -3,59 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Isa Rafiq - My CV</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-
-  <!-- SEO and Social Meta -->
-  <meta name="description" content="Isa Rafiq – Future Prime Minister, Tax Partner, and Youth Parliament Member">
-  <meta property="og:title" content="Isa Rafiq - My CV" />
-  <meta property="og:description" content="Isa Rafiq's CV, showcasing skills, qualifications, and future aspirations." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://isarafiq.com/cv.html" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <title>Isa Rafiq – CV</title>
   <style>
-    :root {
-      --primary: #000000;
-      --accent: #00bcd4;
-      --text-light: #e0e0e0;
-      --text-dark: #121212;
-      --button-bg: #1e1e1e;
-      --button-hover: #2c2c2c;
-      --glass: rgba(255, 255, 255, 0.05);
-      --border-glass: rgba(255, 255, 255, 0.2);
-    }
-
-    * {
-      box-sizing: border-box;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212; /* Dark background */
       margin: 0;
       padding: 0;
+      line-height: 1.6;
+      color: #e0e0e0; /* Light text for dark mode */
     }
 
-    body {
-      background: var(--primary);
-      font-family: 'Inter', sans-serif;
-      color: var(--text-light);
-      overflow-x: hidden;
+    /* Container for the CV content */
+    .container {
+      max-width: 900px;
+      margin: 4rem auto;
+      padding: 3rem;
+      background: #1f1f1f; /* Darker background for content card */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      color: #e0e0e0;
+      animation: fadeIn 1s ease-in-out;
     }
 
-    /* Main Container */
-    .cv-container {
-      width: 80%;
-      margin: 2rem auto;
-      background: var(--glass);
-      border: 1px solid var(--border-glass);
-      border-radius: 15px;
-      padding: 2rem;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      animation: fadeInUp 1.2s ease-in-out;
-      text-align: center;
-    }
-
-    @keyframes fadeInUp {
+    /* Animations for the container */
+    @keyframes fadeIn {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -66,203 +38,158 @@
       }
     }
 
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin: 1.5rem 0;
-    }
-
-    .section {
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-
-    .section h3 {
-      font-size: 1.6rem;
-      font-weight: 600;
+    h1, h2 {
+      color: #1e88e5; /* Blue color for headings */
       margin-bottom: 0.5rem;
     }
 
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    p, li {
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    /* Contact section styling */
+    .contact {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .contact p {
+      font-size: 1.1rem;
+    }
+
+    .contact a {
+      color: #1e88e5;
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* Section styling */
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section p {
+      color: #bbb;
+    }
+
+    /* Links and hover effects */
+    a {
+      color: #1e88e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* List and section styling */
     .section ul {
       list-style-type: none;
       padding-left: 0;
     }
 
     .section ul li {
-      font-size: 1.1rem;
-      margin: 0.5rem 0;
+      margin-bottom: 1rem;
     }
 
-    .button {
-      display: inline-block;
-      margin-top: 1.5rem;
-      text-decoration: none;
-      color: var(--text-light);
-      background: var(--button-bg);
-      padding: 0.75rem 1.6rem;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      border: 1px solid var(--border-glass);
+    .section ul li::before {
+      content: "• ";
+      color: #1e88e5;
     }
 
-    .button:hover {
-      background: var(--button-hover);
-      transform: scale(1.05);
-    }
-
-    /* Sidebar */
-    .sidebar {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 999;
-      top: 0;
-      left: 0;
-      background-color: #121212;
-      overflow-x: hidden;
-      transition: 0.4s ease;
-      padding-top: 60px;
-      border-right: 2px solid var(--border-glass);
-    }
-
-    .sidebar a {
-      padding: 12px 30px;
-      text-decoration: none;
-      font-size: 1.1rem;
-      color: var(--text-light);
-      display: block;
-      transition: 0.2s;
-    }
-
-    .sidebar a:hover {
-      background-color: var(--button-hover);
-    }
-
-    .sidebar .closebtn {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--accent);
-    }
-
-    .openbtn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 28px;
-      background: none;
-      border: none;
-      color: var(--accent);
-      cursor: pointer;
-      z-index: 1000;
-      transition: transform 0.3s ease;
-    }
-
-    .openbtn:hover {
-      transform: rotate(90deg);
-    }
-
-    @media (max-width: 600px) {
-      .cv-container {
-        padding: 1.5rem;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      .section h3 {
-        font-size: 1.3rem;
-      }
-
-      .section ul li {
-        font-size: 1rem;
-      }
-    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Isa Rafiq</h1>
 
-  <!-- Sidebar -->
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="index.html">Home</a>
-    <a href="cv.html">My CV</a>
-    <a href="mailto:contact@isarafiq.com">Contact</a>
-    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a>
-  </div>
-
-  <!-- Hamburger Button -->
-  <button class="openbtn" onclick="openNav()">☰</button>
-
-  <!-- Main CV Content -->
-  <div class="cv-container">
-    <h1>Isa Rafiq - My CV</h1>
-
-    <!-- Career & Education Section -->
-    <div class="section">
-      <h3>Career Objective</h3>
-      <p>I am an ambitious, driven individual with a passion for politics, economics, and law. I am committed to serving my community through leadership and innovation, striving to become a future tax partner and the Prime Minister of the UK.</p>
+    <!-- Contact Information -->
+    <div class="contact">
+      <p>📍 London, United Kingdom<br>
+      📧 <a href="mailto:contact@isarafiq.com">contact@isarafiq.com</a><br>
+      🔗 <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a> |
+      🌐 <a href="https://isarafiq.com" target="_blank">isarafiq.com</a></p>
     </div>
 
-    <!-- Experience Section -->
+    <!-- Profile Section -->
     <div class="section">
-      <h3>Professional Experience</h3>
-      <ul>
-        <li><strong>Member of the UK Youth Parliament</strong> | 2023 - Present</li>
-        <li><strong>Intern, Financial Consulting</strong> | 2022 - 2023</li>
-        <li><strong>Student Ambassador, XYZ University</strong> | 2021 - 2022</li>
-      </ul>
+      <h2>🎯 Profile</h2>
+      <p>Ambitious and driven Year 11 student with a profound interest in politics, economics, and journalism. Elected Member of the UK Youth Parliament representing Newham, demonstrating leadership and commitment to youth advocacy. Aspiring to pursue PPE at Oxford and further studies in the United States, with a long-term goal of becoming Prime Minister and a tax partner.</p>
     </div>
 
     <!-- Education Section -->
     <div class="section">
-      <h3>Education</h3>
+      <h2>🎓 Education</h2>
+      <p><strong>Lister Community School</strong>, London, UK<br>
+      <em>Year 11 Student (Expected GCSEs: 2025)</em><br>
+      Targeting all Grade 9s in subjects including English Literature, English Language, Mathematics, Further Mathematics, Biology, Chemistry, Physics, Business Studies, History, Mandarin, RS.</p>
+    </div>
+
+    <!-- Leadership & Extracurricular Section -->
+    <div class="section">
+      <h2>🏛️ Leadership & Extracurricular</h2>
       <ul>
-        <li><strong>Oxford University</strong> | PPE (Philosophy, Politics, Economics) | 2023 - Present</li>
-        <li><strong>London Academy</strong> | A-Levels: History, Economics, Politics | 2021 - 2023</li>
-        <li><strong>Newham High School</strong> | GCSEs: 9 GCSEs at Grade 9 | 2016 - 2021</li>
+        <li><strong>Member of Youth Parliament (Newham)</strong> – Representing youth in local and national politics.</li>
+        <li><strong>Founder, Newham Talks Podcast</strong> – Engaging youth and leaders in local issues.</li>
+        <li><strong>Initiator, Council of Head Boys/Girls</strong> – Building a UK-wide student leadership network.</li>
+        <li><strong>Founder, National Youth Journalism Platform</strong> – Providing a voice for aspiring young writers.</li>
       </ul>
     </div>
 
     <!-- Skills Section -->
     <div class="section">
-      <h3>Skills & Competencies</h3>
+      <h2>📝 Skills</h2>
       <ul>
-        <li>Leadership & Strategic Thinking</li>
-        <li>Political Analysis & Public Policy</li>
-        <li>Economic Forecasting & Data Analysis</li>
-        <li>Public Speaking & Media Engagement</li>
+        <li>Public Speaking</li>
+        <li>Leadership & Representation</li>
+        <li>Critical Thinking</li>
+        <li>Written & Verbal Communication</li>
       </ul>
     </div>
 
-    <!-- Links -->
-    <a href="mailto:contact@isarafiq.com" class="button">Contact Me</a>
-    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank" class="button">LinkedIn</a>
+    <!-- Interests Section -->
+    <div class="section">
+      <h2>🌐 Interests</h2>
+      <ul>
+        <li>Politics & Policy</li>
+        <li>Economics & Business</li>
+        <li>Journalism & Media</li>
+        <li>Mathematics & Physics</li>
+        <li>Philosophy & Ethics</li>
+      </ul>
+    </div>
+
+    <!-- Future Goals Section -->
+    <div class="section">
+      <h2>🎯 Future Goals</h2>
+      <ul>
+        <li>Achieve all Grade 9s in GCSEs</li>
+        <li>Secure a scholarship to a university</li>
+        <li>Study PPE at Oxford University</li>
+        <li>Apply to Ivy League universities</li>
+        <li>Continue building youth advocacy platforms</li>
+      </ul>
+    </div>
   </div>
-
-  <!-- JS for Sidebar -->
-  <script>
-    function openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-    }
-
-    function closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-    }
-  </script>
-
 </body>
 </html>
