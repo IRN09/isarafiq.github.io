@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Isa Rafiq – CV</title>
   <style>
+    /* Global Styles */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #121212; /* Dark background */
@@ -12,6 +13,49 @@
       padding: 0;
       line-height: 1.6;
       color: #e0e0e0; /* Light text for dark mode */
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: #000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #1e88e5;
+    }
+
+    /* Smooth scroll button */
+    .scroll-down {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1e88e5;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scroll-down:hover {
+      background-color: #006bb3;
     }
 
     /* Container for the CV content */
@@ -39,7 +83,7 @@
     }
 
     h1, h2 {
-      color: #1e88e5; /* Blue color for headings */
+      color: #fff; /* White text */
       margin-bottom: 0.5rem;
     }
 
@@ -74,11 +118,12 @@
     }
 
     .contact a {
-      color: #1e88e5;
+      color: #fff;
       text-decoration: none;
     }
 
     .contact a:hover {
+      color: #1e88e5;
       text-decoration: underline;
     }
 
@@ -93,12 +138,13 @@
 
     /* Links and hover effects */
     a {
-      color: #1e88e5;
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
     }
 
     a:hover {
+      color: #1e88e5;
       text-decoration: underline;
     }
 
@@ -120,6 +166,18 @@
   </style>
 </head>
 <body>
+
+  <!-- Navbar Section -->
+  <div class="navbar">
+    <a href="https://isarafiq.com">Home</a>
+    <a href="http://isarafiq.com/cv.html">CV</a>
+    <a href="mailto:contact@isarafiq.com">Contact</a>
+  </div>
+
+  <!-- Scroll Down Button -->
+  <button class="scroll-down" onclick="window.scrollBy(0, window.innerHeight)">Scroll Down</button>
+
+  <!-- Container for the CV Content -->
   <div class="container">
     <h1>Isa Rafiq</h1>
 
@@ -191,5 +249,6 @@
       </ul>
     </div>
   </div>
+
 </body>
 </html>
