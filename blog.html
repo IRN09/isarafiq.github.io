@@ -3,204 +3,585 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GCSE Blog – Isa Rafiq</title>
-  <meta name="description" content="Daily thoughts, strategies, and lessons from Isa Rafiq's journey towards GCSE success." />
+  <title>Blog – Isa Rafiq</title>
+  <meta name="description" content="A-Levels, Youth Parliament, projects, business work, and social media—notes from Isa Rafiq." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #0a0a0a;
-      --accent: #00bcd4;
-      --text-light: #e0e0e0;
+      --bg-1: #000;
+      --bg-2: #111;
+      --text: #eaeaea;
+      --muted: #b3b3b3;
+      --accent: #cfcfcf; /* monochrome accent */
       --glass: rgba(255, 255, 255, 0.05);
-      --border-glass: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --chip-bg: rgba(255,255,255,0.06);
+      --chip-border: rgba(255,255,255,0.18);
+      --card-hover: rgba(255,255,255,0.08);
+      --shadow: 0 8px 30px rgba(0,0,0,0.6);
+      --radius: 14px;
+      --speed: 1000ms;
+      --container: 1220px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--primary);
-      font-family: 'Inter', sans-serif;
-      color: var(--text-light);
-      padding: 2rem;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: linear-gradient(120deg, var(--bg-1), var(--bg-2));
+      background-attachment: fixed;
+      overflow-x: hidden;
+      line-height: 1.65;
+      transition: background 1.5s ease;
     }
 
-    h1 {
+    /* Progress bar */
+    #progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: linear-gradient(90deg, #fff, #999);
+      z-index: 2000;
+      box-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+
+    /* Particles & shapes behind everything */
+    canvas#particles { position: fixed; inset: 0; z-index: 0; }
+    .shapes { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .shape {
+      position: absolute;
+      width: 220px; height: 220px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.08);
+      filter: blur(0.2px);
+      animation: float 26s ease-in-out infinite;
+    }
+    .shape.s2 { width: 280px; height: 280px; animation-duration: 32s; }
+    .shape.s3 { width: 180px; height: 180px; animation-duration: 30s; }
+
+    @keyframes float {
+      0%,100% { transform: translate3d(0,0,0) rotate(0deg); }
+      50%     { transform: translate3d(-30px,-50px,0) rotate(180deg); }
+    }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; justify-content: center;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1500;
+    }
+    .nav-inner {
+      width: min(var(--container), 92vw);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 0;
+    }
+    .brand { font-weight: 700; letter-spacing: .5px; }
+    .links a {
+      text-decoration: none; color: var(--text);
+      margin-left: 1.2rem; font-weight: 600; opacity: .9;
+      border-bottom: 1px solid transparent;
+      transition: opacity .25s ease, border-color .25s ease;
+    }
+    .links a:hover { opacity: 1; border-color: var(--glass-border); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 46vh;
+      display: grid; place-items: center;
       text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: var(--accent);
+      padding-top: 6.5rem; /* offset nav */
+      z-index: 1;
     }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 3fr;
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .sidebar {
+    .hero .wrap {
       background: var(--glass);
-      border: 1px solid var(--border-glass);
-      padding: 1.5rem;
-      border-radius: 12px;
-      height: fit-content;
+      border: 1px solid var(--glass-border);
+      padding: 2.2rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      max-width: 860px;
+      animation: rise .9s ease both;
     }
+    @keyframes rise { from {opacity:0; transform: translateY(18px);} to {opacity:1; transform: translateY(0);} }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: 0.4px;
+    }
+    .hero p { margin-top: 0.65rem; color: var(--muted); }
+
+    /* Parallax noise overlay */
+    .hero.parallax::before {
+      content: "";
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,255,255,0.05), transparent 60%),
+        radial-gradient(900px 600px at 90% 90%, rgba(255,255,255,0.04), transparent 65%);
+      opacity: 0.7;
+      transform: translateY(-10vh);
+      will-change: transform;
+    }
+
+    /* Layout */
+    .layout {
+      position: relative;
+      z-index: 1;
+      width: min(var(--container), 92vw);
+      margin: 2rem auto 6rem;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } }
+
+    /* Sidebar */
+    aside.sidebar {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      position: sticky; top: 6.5rem; height: fit-content;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    aside.sidebar.show { opacity: 1; transform: translateY(0); }
 
     .sidebar h3 {
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border-glass);
-      padding-bottom: 0.5rem;
-      font-size: 1.1rem;
-      color: var(--accent);
+      font-size: 0.95rem; letter-spacing: .5px; text-transform: uppercase;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: .6rem; margin-bottom: 1rem; color: var(--accent);
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.2rem; }
+    .chip {
+      font-size: .9rem; padding: .35rem .75rem; border-radius: 999px;
+      background: var(--chip-bg); border: 1px solid var(--chip-border);
+      cursor: pointer; user-select: none; transition: transform .15s ease, background .3s ease;
+    }
+    .chip:hover { transform: translateY(-1px); }
+    .chip.active { background: rgba(255,255,255,0.12); }
+
+    .search {
+      width: 100%; padding: .7rem .9rem; margin-bottom: 1rem;
+      background: #151515; border: 1px solid var(--glass-border);
+      color: var(--text); border-radius: 10px;
     }
 
-    .sidebar ul {
-      list-style: none;
-      margin-bottom: 1.5rem;
+    .newsletter {
+      margin-top: 1.2rem; background: #0f0f0f; border: 1px dashed var(--glass-border);
+      padding: 1rem; border-radius: 10px; color: var(--muted);
     }
-
-    .sidebar ul li {
-      margin-bottom: 0.5rem;
+    .newsletter input[type="email"]{
+      width:100%; padding:.7rem .9rem; background:#151515; border:1px solid var(--glass-border);
+      color:var(--text); border-radius:10px; margin:.6rem 0 .8rem;
     }
-
-    .sidebar ul li a {
-      color: var(--text-light);
-      text-decoration: none;
+    .button {
+      display:inline-block; padding:.65rem 1.2rem; background:#151515; color:var(--text);
+      border:1px solid var(--glass-border); border-radius:10px; text-decoration:none; transition: all .25s ease;
     }
+    .button:hover { background: var(--card-hover); transform: translateY(-1px); }
 
-    .sidebar input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 0.5rem;
-      background: #1e1e1e;
-      border: 1px solid var(--border-glass);
-      color: var(--text-light);
-      border-radius: 6px;
-    }
-
+    /* Blog list */
     .blog-container article {
       background: var(--glass);
-      border: 1px solid var(--border-glass);
-      padding: 1.5rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
+      border: 1px solid var(--glass-border);
+      padding: 1.4rem 1.4rem;
+      border-radius: var(--radius);
       backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.6rem;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease, background .3s ease, border-color .3s ease;
     }
+    .blog-container article.show { opacity:1; transform: translateY(0); }
+    .blog-container article:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
 
-    article h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.3rem;
-      color: var(--accent);
+    article h2 { font-size: 1.25rem; letter-spacing: .3px; }
+    .meta {
+      display:flex; flex-wrap:wrap; gap:.6rem 1.1rem; margin:.5rem 0 1rem; color: var(--muted);
+      font-size:.95rem; align-items:center;
     }
+    .badge { font-size:.8rem; padding:.15rem .55rem; border:1px solid var(--chip-border); border-radius:999px; }
+    article p { color:#d8d8d8; }
 
-    article time {
-      display: block;
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 1rem;
+    .card-actions { margin-top: .9rem; display:flex; gap:.6rem; flex-wrap:wrap; }
+    .tiny { font-size:.92rem; padding:.45rem .85rem; border-radius:8px; }
+
+    /* Footer */
+    footer { text-align:center; color: var(--muted); margin: 2rem 0 3rem; }
+
+    /* Command palette */
+    .cmdk {
+      position: fixed; inset: 0; display: none; place-items: center; z-index: 2500;
+      background: rgba(0,0,0,.6); backdrop-filter: blur(6px);
     }
-
-    article p {
-      font-size: 1rem;
-      line-height: 1.6;
+    .cmdk.active { display: grid; }
+    .cmdk-box {
+      width: min(720px, 92vw); background: #0f0f0f; border:1px solid var(--glass-border);
+      border-radius: 14px; box-shadow: var(--shadow); padding: .8rem;
     }
-
-    .button {
-      display: inline-block;
-      padding: 0.6rem 1.4rem;
-      background: #1e1e1e;
-      color: var(--text-light);
-      border: 1px solid var(--border-glass);
-      border-radius: 6px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      margin-top: 0.5rem;
+    .cmdk-box input {
+      width:100%; padding: .9rem 1rem; background:#121212; color:var(--text);
+      border:1px solid var(--glass-border); border-radius:10px; margin-bottom:.8rem;
     }
-
-    .button:hover {
-      background: #2c2c2c;
-      transform: scale(1.05);
+    .cmdk-results { max-height: 45vh; overflow:auto; }
+    .cmdk-results a {
+      display:block; padding:.7rem .8rem; border-radius:10px; text-decoration:none; color:var(--text);
     }
+    .cmdk-results a:hover { background: var(--card-hover); }
 
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+      background: #0f0f0f; color: var(--text); border: 1px solid var(--glass-border);
+      padding: .6rem 1rem; border-radius: 10px; box-shadow: var(--shadow);
+      z-index: 2600; display:none;
     }
   </style>
 </head>
 <body>
 
-  <h1>📚 Isa’s GCSE Blog</h1>
+  <!-- progress -->
+  <div id="progress"></div>
 
-  <div class="layout">
+  <!-- particles + shapes -->
+  <canvas id="particles"></canvas>
+  <div class="shapes" aria-hidden="true">
+    <div class="shape s1" style="top:12%; left:6%;"></div>
+    <div class="shape s2" style="top:62%; left:78%;"></div>
+    <div class="shape s3" style="top:38%; left:22%;"></div>
+  </div>
+
+  <!-- nav -->
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">Isa Rafiq</div>
+      <div class="links">
+        <a href="https://isarafiq.com">Home</a>
+        <a href="https://isarafiq.com/cv.html">CV</a>
+        <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:contact@isarafiq.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- hero -->
+  <header class="hero parallax">
+    <div class="wrap">
+      <h1>Journal — A Levels • Youth Parliament • Projects • Business • Social</h1>
+      <p>Sharp notes from the work, the debates, and the builds.</p>
+    </div>
+  </header>
+
+  <!-- layout -->
+  <main class="layout">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h3>📂 Filter by Subject</h3>
-      <ul>
-        <li><a href="#">All Posts</a></li>
-        <li><a href="#">English</a></li>
-        <li><a href="#">Maths</a></li>
-        <li><a href="#">Science</a></li>
-        <li><a href="#">History</a></li>
-        <li><a href="#">Productivity</a></li>
-      </ul>
+    <aside class="sidebar" id="sidebar">
+      <h3>Filter by Topic</h3>
+      <div class="chips" id="chipRow">
+        <div class="chip active" data-filter="all">All</div>
+        <div class="chip" data-filter="a-levels">A Levels</div>
+        <div class="chip" data-filter="youth-parliament">Youth Parliament</div>
+        <div class="chip" data-filter="projects">Project Work</div>
+        <div class="chip" data-filter="business">Business</div>
+        <div class="chip" data-filter="social-media">Social Media</div>
+      </div>
 
-      <h3>💡 Quote of the Day</h3>
-      <p style="font-style: italic;">“.”</p>
+      <h3>Search</h3>
+      <input type="text" id="search" class="search" placeholder="Search posts… (try: manifesto, quant, podcast)">
 
-      <h3>✉️ Newsletter</h3>
-      <p>Subscribe to get GCSE tips direct to your inbox.</p>
-      <input type="text" placeholder="Your email" />
-      <a href="#" class="button">Subscribe</a>
+      <h3>Newsletter</h3>
+      <div class="newsletter">
+        <p>Get new posts straight to your inbox.</p>
+        <form action="https://formspree.io/f/myzdgqgb" method="POST">
+          <input type="email" name="email" placeholder="you@example.com" required />
+          <button class="button" type="submit">Subscribe</button>
+        </form>
+      </div>
 
-      <h3>📌 Recent Posts</h3>
-      <ul>
-        <li><a href="#gcse-day-2">Day 2 - </a></li>
-      </ul>
-
-      <h3>🎯 Revision Strategy</h3>
-      <ul>
-        <li>☑ Pomodoro Sessions-Ultradian Rythms</li>
-        <li>☑ Blurting for Recall</li>
-        <li>☑ Practice Questions Daily</li>
-        <li>☑ Daily Essay Plans</li>
-      </ul>
+      <h3>Quick Links</h3>
+      <a class="button" href="mailto:contact@isarafiq.com?subject=Interview%20Enquiry">Book an Interview</a>
+      <a class="button" href="mailto:contact@isarafiq.com?subject=Investor%20Enquiry">Investor Enquiries</a>
     </aside>
 
     <!-- BLOG POSTS -->
-    <div class="blog-container">
+    <section class="blog-container" id="posts">
 
-      <!-- Example Daily Blog Entry -->
-      <article id="gcse-day-1">
-        <h2>Day 1 - </h2>
-        <time datetime="2025-05-02">2nd May 2025</time>
+      <!-- Example Posts (replace content freely) -->
+      <article data-category="a-levels" id="post-a-levels-setup">
+        <h2>A Level Setup: Systems, Not Willpower</h2>
+        <div class="meta">
+          <time datetime="2025-08-10">10 August 2025</time>
+          <span class="read"></span>
+          <span class="badge">A Levels</span>
+        </div>
         <p>
-          <br><br>
+          Outlining my A Level operating system: weekly sprints, syllabus-first planning, ruthless past-paper loops,
+          and a lightweight knowledge repo. The aim: compounding calm, not last-minute chaos.
         </p>
+        <div class="card-actions">
+          <a href="#post-a-levels-setup" class="button tiny">Permalink</a>
+          <button class="button tiny copy" data-target="post-a-levels-setup">Copy link</button>
+        </div>
       </article>
-<article id="gcse-day-2">
-  <h2>Day 2 - </h2>
-  <time datetime="2025-05-03">3rd May 2025</time>
-  <p>
-  </p>
-</article>
 
-      <!-- More articles go here -->
-      <!-- Just send me the text and I'll format the code entry for you -->
+      <article data-category="youth-parliament" id="post-myp-agenda">
+        <h2>MYP: Agenda, Alliances, and Delivery</h2>
+        <div class="meta">
+          <time datetime="2025-08-08">8 August 2025</time>
+          <span class="read"></span>
+          <span class="badge">Youth Parliament</span>
+        </div>
+        <p>
+          How I build coalitions, move motions, and keep focus on execution. Notes on committee work, local surgeries,
+          and media framing that respects nuance without losing urgency.
+        </p>
+        <div class="card-actions">
+          <a href="#post-myp-agenda" class="button tiny">Permalink</a>
+          <button class="button tiny copy" data-target="post-myp-agenda">Copy link</button>
+        </div>
+      </article>
 
-      <a href="index.html" class="button">← Back to Home</a>
+      <article data-category="projects" id="post-project-leaf">
+        <h2>Project: LEAF Fellowship – From Theory to Build</h2>
+        <div class="meta">
+          <time datetime="2025-08-05">5 August 2025</time>
+          <span class="read"></span>
+          <span class="badge">Project Work</span>
+        </div>
+        <p>
+          Extending the Mathematics of Morality work into a deployable project: data pipelines, metrics that matter,
+          and an open protocol for transparent impact.
+        </p>
+        <div class="card-actions">
+          <a href="#post-project-leaf" class="button tiny">Permalink</a>
+          <button class="button tiny copy" data-target="post-project-leaf">Copy link</button>
+        </div>
+      </article>
 
+      <article data-category="business" id="post-man-group">
+        <h2>Inside Man Group: What World-Class Feels Like</h2>
+        <div class="meta">
+          <time datetime="2025-07-29">29 July 2025</time>
+          <span class="read"></span>
+          <span class="badge">Business</span>
+        </div>
+        <p>
+          Four days, five departments: operations, trading, solutions, discretionary vs systematic, high-court sim,
+          and two internal wins. Lessons on process, risk, and communication under pressure.
+        </p>
+        <div class="card-actions">
+          <a href="#post-man-group" class="button tiny">Permalink</a>
+          <button class="button tiny copy" data-target="post-man-group">Copy link</button>
+        </div>
+      </article>
+
+      <article data-category="social-media" id="post-social-stack">
+        <h2>Social Stack: Principles Over Platforms</h2>
+        <div class="meta">
+          <time datetime="2025-07-20">20 July 2025</time>
+          <span class="read"></span>
+          <span class="badge">Social Media</span>
+        </div>
+        <p>
+          A minimal content loop: longform anchor → short clips → carousels → newsletter. Craft, cadence, and clarity,
+          not gimmicks. Notes on reputation as a compounding asset.
+        </p>
+        <div class="card-actions">
+          <a href="#post-social-stack" class="button tiny">Permalink</a>
+          <button class="button tiny copy" data-target="post-social-stack">Copy link</button>
+        </div>
+      </article>
+
+      <a href="https://isarafiq.com" class="button">← Back to Home</a>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Isa Rafiq. All Rights Reserved.</footer>
+
+  <!-- Command Palette -->
+  <div class="cmdk" id="cmdk" aria-hidden="true">
+    <div class="cmdk-box" role="dialog" aria-modal="true" aria-label="Command palette">
+      <input id="cmdkInput" placeholder="Search posts… (ESC to close)">
+      <div class="cmdk-results" id="cmdkResults"></div>
     </div>
   </div>
 
+  <div id="toast" role="status" aria-live="polite">Link copied</div>
+
+  <script>
+    // ------- Gradient shifts -------
+    (function(){
+      const colors = ["#000", "#0d0d0d", "#171717", "#0d0d0d"];
+      let i = 0;
+      setInterval(() => {
+        document.body.style.background = `linear-gradient(120deg, ${colors[i]}, ${colors[(i+1)%colors.length]})`;
+        i = (i+1) % colors.length;
+      }, 6000);
+    })();
+
+    // ------- Parallax hero layer -------
+    window.addEventListener('scroll', () => {
+      const hero = document.querySelector('.hero.parallax');
+      const y = window.scrollY * 0.25;
+      hero.style.transform = `translateY(${y * 0.02}px)`;
+      hero.style.opacity = Math.max(0.85, 1 - (y / 1200));
+    });
+
+    // ------- Scroll reveal -------
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.blog-container article, .sidebar').forEach(el => io.observe(el));
+
+    // ------- Reading progress -------
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', ()=>{
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+      progress.style.width = scrolled + '%';
+    });
+
+    // ------- Particles (trail) -------
+    (function(){
+      const c = document.getElementById('particles');
+      const ctx = c.getContext('2d');
+      function resize(){ c.width = innerWidth; c.height = innerHeight; }
+      addEventListener('resize', resize); resize();
+
+      const P = Array.from({length: 110}).map(()=>({
+        x: Math.random()*c.width, y: Math.random()*c.height,
+        vx: (Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, r: Math.random()*1.8+0.6
+      }));
+
+      function loop(){
+        ctx.fillStyle = 'rgba(0,0,0,0.22)';
+        ctx.fillRect(0,0,c.width,c.height);
+        P.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0||p.x>c.width) p.vx*=-1;
+          if(p.y<0||p.y>c.height) p.vy*=-1;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.7)'; ctx.fill();
+        });
+        requestAnimationFrame(loop);
+      } loop();
+    })();
+
+    // ------- Slow 3D-like shapes already in DOM (CSS anim) -------
+
+    // ------- Chips filter & search -------
+    const chips = [...document.querySelectorAll('.chip')];
+    const posts = [...document.querySelectorAll('.blog-container article')];
+    const search = document.getElementById('search');
+
+    function applyFilters() {
+      const active = chips.find(c=>c.classList.contains('active'))?.dataset.filter || 'all';
+      const q = (search.value || '').toLowerCase().trim();
+      posts.forEach(p=>{
+        const inCat = active === 'all' || p.dataset.category === active;
+        const inText = p.textContent.toLowerCase().includes(q);
+        p.style.display = (inCat && inText) ? '' : 'none';
+      });
+    }
+    chips.forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        chips.forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilters();
+      });
+    });
+    search.addEventListener('input', applyFilters);
+
+    // ------- Read-time estimator -------
+    function estimate(element){
+      const wpm = 230;
+      const words = element.textContent.trim().split(/\\s+/).length;
+      return Math.max(1, Math.round(words / wpm));
+    }
+    posts.forEach(p=>{
+      const span = p.querySelector('.read');
+      span.textContent = `• ${estimate(p)} min read`;
+    });
+
+    // ------- Copy share link with toast -------
+    function showToast(msg='Link copied'){
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(()=> t.style.display='none', 1200);
+    }
+    document.querySelectorAll('button.copy').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        const id = b.dataset.target;
+        const url = location.origin + location.pathname + '#' + id;
+        try { await navigator.clipboard.writeText(url); showToast(); }
+        catch { showToast('Copied (fallback)'); }
+      });
+    });
+
+    // ------- Command palette (Ctrl/Cmd+K or /) -------
+    const cmdk = document.getElementById('cmdk');
+    const cmdkInput = document.getElementById('cmdkInput');
+    const cmdkResults = document.getElementById('cmdkResults');
+
+    function openCmdk(){
+      cmdk.classList.add('active');
+      cmdk.setAttribute('aria-hidden','false');
+      cmdkInput.value = '';
+      renderCmdk('');
+      setTimeout(()=>cmdkInput.focus(), 10);
+    }
+    function closeCmdk(){
+      cmdk.classList.remove('active');
+      cmdk.setAttribute('aria-hidden','true');
+    }
+    function renderCmdk(q){
+      const items = posts
+        .filter(p => p.style.display !== 'none')
+        .filter(p => p.querySelector('h2').textContent.toLowerCase().includes(q.toLowerCase()))
+        .map(p => ({ id: p.id, title: p.querySelector('h2').textContent }));
+      cmdkResults.innerHTML = items.length
+        ? items.map(i => `<a href="#${i.id}" onclick="document.getElementById('${i.id}').scrollIntoView({behavior:'smooth'});">${i.title}</a>`).join('')
+        : '<div style="padding:.7rem .8rem;color:#aaa;">No matches</div>';
+    }
+    document.addEventListener('keydown', (e)=>{
+      const mac = navigator.platform.toUpperCase().includes('MAC');
+      const modK = (mac && e.metaKey && e.key.toLowerCase()==='k') || (!mac && e.ctrlKey && e.key.toLowerCase()==='k');
+      if (modK || (e.key === '/' && document.activeElement === document.body)) {
+        e.preventDefault();
+        openCmdk();
+      }
+      if (e.key === 'Escape' && cmdk.classList.contains('active')) closeCmdk();
+    });
+    cmdkInput.addEventListener('input', (e)=> renderCmdk(e.target.value));
+    cmdk.addEventListener('click', (e)=> { if (e.target === cmdk) closeCmdk(); });
+
+    // ------- Footer year -------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ------- Sidebar initial reveal -------
+    window.addEventListener('load', ()=>{
+      document.getElementById('sidebar').classList.add('show');
+    });
+  </script>
+
+  <!-- Basic Blog JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Isa Rafiq — Journal",
+    "url": "https://isarafiq.com/blog.html",
+    "author": {
+      "@type": "Person",
+      "name": "Isa Rafiq"
+    }
+  }
+  </script>
 </body>
 </html>
-
