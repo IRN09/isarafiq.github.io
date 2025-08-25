@@ -25,6 +25,11 @@
       overflow-x: hidden;
       transition: background 1.5s ease;
     }
+    canvas#particles {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      z-index:0;
+    }
     section {
       min-height: 100vh;
       display: flex;
@@ -80,7 +85,6 @@
     }
     .card:hover {transform: translateY(-10px) scale(1.02);}
 
-    /* Parallax background */
     .parallax::before {
       content: "";
       position: absolute;
@@ -90,7 +94,6 @@
       z-index: -1;
     }
 
-    /* Navigation */
     nav {
       position: fixed;
       top:0; left:0; width:100%;
@@ -105,7 +108,6 @@
     nav a {color:var(--text); font-weight:600; text-decoration:none; transition: color .3s;}
     nav a:hover {color:var(--accent);}
 
-    /* Professional touches */
     .divider {
       width:80px;height:3px;background:var(--accent);margin:1.5rem auto;border-radius:2px;
     }
@@ -116,7 +118,8 @@
 </head>
 <body>
 
-  <!-- Navigation -->
+  <canvas id="particles"></canvas>
+
   <nav>
     <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a>
     <a href="https://isarafiq.com/cv.html">CV</a>
@@ -151,7 +154,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     © 2025 Isa Rafiq. All Rights Reserved.
   </footer>
@@ -174,11 +176,75 @@
 
     // Gradient shift effect
     let colors = ["#000", "#111", "#222", "#111"];
-    let step = 0; let i=0;
+    let i=0;
     setInterval(()=>{
       document.body.style.background = `linear-gradient(120deg, ${colors[i]}, ${colors[(i+1)%colors.length]})`;
       i = (i+1)%colors.length;
     },5000);
+
+    // Particle trails
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+    window.addEventListener('resize',resize);resize();
+    for(let j=0;j<120;j++){
+      particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5),vy:(Math.random()-0.5),size:Math.random()*2+1});
+    }
+    function animate(){
+      ctx.fillStyle='rgba(0,0,0,0.2)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p=>{
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1;
+        if(p.y<0||p.y>canvas.height) p.vy*=-1;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.7)';
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Slow moving 3D shapes (CSS animation illusion)
+    const shapes = document.createElement('div');
+    shapes.innerHTML = `
+      <div class="shape" style="--i:0"></div>
+      <div class="shape" style="--i:1"></div>
+      <div class="shape" style="--i:2"></div>`;
+    document.body.appendChild(shapes);
+    shapes.style.position='fixed';shapes.style.top=0;shapes.style.left=0;shapes.style.width='100%';shapes.style.height='100%';shapes.style.zIndex='0';
+    shapes.querySelectorAll('.shape').forEach((s,idx)=>{
+      s.style.position='absolute';s.style.width='200px';s.style.height='200px';
+      s.style.border='1px solid rgba(255,255,255,0.1)';s.style.borderRadius='50%';
+      s.style.top=`${30*idx+20}%`;s.style.left=`${20*idx+20}%`;
+      s.style.animation=`float ${20+idx*10}s infinite linear alternate`;
+    });
+    const style=document.createElement('style');
+    style.innerHTML=`@keyframes float{from{transform:translateY(0) rotate(0);}to{transform:translateY(-50px) rotate(360deg);}}`;
+    document.head.appendChild(style);
+
+    // Extra Features: 1) Smooth scroll indicator, 2) Dynamic year in footer, 3) Cursor glow
+    const scrollIndicator = document.createElement('div');
+    scrollIndicator.style.position='fixed';scrollIndicator.style.bottom='20px';scrollIndicator.style.left='50%';scrollIndicator.style.transform='translateX(-50%)';
+    scrollIndicator.style.width='40px';scrollIndicator.style.height='40px';scrollIndicator.style.border='2px solid #fff';scrollIndicator.style.borderRadius='50%';scrollIndicator.style.opacity='0.6';scrollIndicator.style.animation='bounce 2s infinite';
+    document.body.appendChild(scrollIndicator);
+    const style2=document.createElement('style');
+    style2.innerHTML='@keyframes bounce{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,10px);}}';
+    document.head.appendChild(style2);
+
+    document.querySelector('footer').innerHTML = `© ${new Date().getFullYear()} Isa Rafiq. All Rights Reserved.`;
+
+    document.addEventListener('mousemove', e => {
+      const glow = document.createElement('div');
+      glow.style.position='fixed';glow.style.left=e.pageX+'px';glow.style.top=e.pageY+'px';
+      glow.style.width='15px';glow.style.height='15px';glow.style.background='rgba(255,255,255,0.4)';glow.style.borderRadius='50%';glow.style.pointerEvents='none';
+      glow.style.transform='translate(-50%,-50%)';glow.style.transition='opacity 0.5s linear';
+      document.body.appendChild(glow);
+      setTimeout(()=>glow.style.opacity=0,10);
+      setTimeout(()=>glow.remove(),600);
+    });
   </script>
 
 </body>
