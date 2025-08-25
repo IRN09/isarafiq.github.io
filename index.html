@@ -12,14 +12,18 @@
       --bg: #000;
       --text: #fff;
       --accent: #888;
+      --grad1: #000;
+      --grad2: #111;
     }
     * {margin:0;padding:0;box-sizing:border-box;}
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
+      background: linear-gradient(120deg, var(--grad1), var(--grad2));
+      background-attachment: fixed;
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background 1.5s ease;
     }
     section {
       min-height: 100vh;
@@ -31,6 +35,8 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease;
+      position: relative;
+      z-index: 1;
     }
     section.show {
       opacity: 1;
@@ -41,7 +47,7 @@
       letter-spacing: 1px;
       margin-bottom: 1.5rem;
     }
-    .hero h1 {font-size: 3rem;}
+    .hero h1 {font-size: 3.5rem;}
     .fade-text {
       font-size: 1.4rem;
       margin: 1rem 0;
@@ -69,12 +75,56 @@
       max-width:600px;
       text-align:center;
       margin:1rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      transition: transform .6s ease;
+    }
+    .card:hover {transform: translateY(-10px) scale(1.02);}
+
+    /* Parallax background */
+    .parallax::before {
+      content: "";
+      position: absolute;
+      top:0;left:0;width:100%;height:100%;
+      background: url('https://isarafiq.com/your-bg.jpg') center/cover fixed;
+      opacity: 0.08;
+      z-index: -1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top:0; left:0; width:100%;
+      display:flex;
+      justify-content: flex-end;
+      gap:2rem;
+      padding:1rem 2rem;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index:100;
+    }
+    nav a {color:var(--text); font-weight:600; text-decoration:none; transition: color .3s;}
+    nav a:hover {color:var(--accent);}
+
+    /* Professional touches */
+    .divider {
+      width:80px;height:3px;background:var(--accent);margin:1.5rem auto;border-radius:2px;
+    }
+    footer {
+      text-align:center;padding:2rem;font-size:0.9rem;color:var(--accent);background:#000;
     }
   </style>
 </head>
 <body>
 
-  <section class="hero">
+  <!-- Navigation -->
+  <nav>
+    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a>
+    <a href="https://isarafiq.com/cv.html">CV</a>
+    <a href="https://isarafiq.com/blog.html">Blog</a>
+    <a href="mailto:contact@isarafiq.com">Contact</a>
+  </nav>
+
+  <section class="hero parallax">
     <h1>Isa Rafiq</h1>
     <div class="fade-text">Student | Aspiring Prime Minister</div>
     <div class="fade-text">Future Tax Partner</div>
@@ -85,6 +135,7 @@
 
   <section>
     <h2>Book an Interview</h2>
+    <div class="divider"></div>
     <div class="card">
       <p>For speaking engagements, press features, or podcast interviews, reach me directly.</p>
       <a href="mailto:contact@isarafiq.com" class="button">Book Now</a>
@@ -93,11 +144,17 @@
 
   <section>
     <h2>Investor Section</h2>
+    <div class="divider"></div>
     <div class="card">
       <p>Partner with me in future ventures, NGOs, and initiatives driving change.</p>
       <a href="mailto:contact@isarafiq.com" class="button">Investor Enquiries</a>
     </div>
   </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Isa Rafiq. All Rights Reserved.
+  </footer>
 
   <script>
     // Scroll reveal
@@ -114,6 +171,14 @@
     texts.forEach((txt,i) => {
       setTimeout(()=>txt.classList.add('show'), i*800 + 500);
     });
+
+    // Gradient shift effect
+    let colors = ["#000", "#111", "#222", "#111"];
+    let step = 0; let i=0;
+    setInterval(()=>{
+      document.body.style.background = `linear-gradient(120deg, ${colors[i]}, ${colors[(i+1)%colors.length]})`;
+      i = (i+1)%colors.length;
+    },5000);
   </script>
 
 </body>
