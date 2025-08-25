@@ -1,251 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Isa Rafiq</title>
   <meta name="description" content="Isa Rafiq – Future Prime Minister, Tax Partner, and Youth Parliament Member" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #000;
-      --text: #fff;
-      --accent: #888;
-      --grad1: #000;
-      --grad2: #111;
+    :root{
+      --bg:#000; --bg-2:#0f0f0f; --text:#fff; --muted:#bdbdbd; --accent:#bfbfbf;
+      --glass:rgba(255,255,255,0.04); --glass-border:rgba(255,255,255,0.12);
+      --radius:14px; --shadow:0 12px 40px rgba(0,0,0,0.65);
     }
-    * {margin:0;padding:0;box-sizing:border-box;}
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, var(--grad1), var(--grad2));
-      background-attachment: fixed;
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: background 1.5s ease;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:var(--text);
+      background:linear-gradient(120deg,var(--bg),var(--bg-2));
+      background-attachment:fixed;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      transition:background 1600ms ease;
     }
-    canvas#particles {
-      position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      z-index:0;
+
+    /* Top nav */
+    nav{
+      position:fixed; left:0; right:0; top:0; z-index:1200;
+      display:flex; justify-content:flex-end; gap:1.1rem;
+      padding:1rem 2rem; background:rgba(0,0,0,0.54); backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--glass-border);
     }
-    section {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 2rem;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
-      position: relative;
-      z-index: 1;
+    nav a{color:var(--text); text-decoration:none; font-weight:600; margin-left:0.6rem}
+    nav a:hover{color:var(--accent)}
+
+    /* HUD controls (top-left small) */
+    .hud{
+      position:fixed; left:18px; top:18px; z-index:1400; display:flex; gap:.6rem; align-items:center;
+      background:var(--glass); border:1px solid var(--glass-border); padding:.45rem .6rem; border-radius:999px;
+      backdrop-filter: blur(6px);
     }
-    section.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    h1, h2 {
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 {font-size: 3.5rem;}
-    .fade-text {
-      font-size: 1.4rem;
-      margin: 1rem 0;
-      color: var(--accent);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    .fade-text.show {opacity:1; transform:translateY(0);}
-    .button {
-      display:inline-block;
-      margin-top:1.5rem;
-      padding:0.8rem 1.8rem;
-      border:1px solid var(--accent);
-      color: var(--text);
-      text-decoration:none;
-      transition: all .3s ease;
-    }
-    .button:hover {background:var(--text);color:var(--bg);}
-    .card {
-      background: rgba(255,255,255,0.02);
-      border:1px solid rgba(255,255,255,0.1);
-      padding:2rem;
-      border-radius:12px;
-      max-width:600px;
+    .hud button{background:transparent;border:none;color:var(--text);cursor:pointer;padding:.35rem .5rem;border-radius:8px}
+    .hud button:hover{background:rgba(255,255,255,0.03)}
+    .hud .dot{width:10px;height:10px;border-radius:50%;background:transparent;border:1px solid #fff;display:inline-block;margin-right:.4rem}
+
+    /* Main hero */
+    main.hero{
+      min-height:60vh; display:grid; place-items:center; padding:6.5rem 1.5rem 4rem; position:relative; z-index:4;
       text-align:center;
-      margin:1rem;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      transition: transform .6s ease;
     }
-    .card:hover {transform: translateY(-10px) scale(1.02);}
+    .panel{
+      background:var(--glass); border-radius:18px; padding:2.2rem 2.2rem; max-width:920px;
+      border:1px solid var(--glass-border); box-shadow:var(--shadow); backdrop-filter:blur(10px);
+      transform:translateZ(0);
+    }
+    h1{font-size:clamp(2.2rem,4vw,3.6rem); font-weight:700; letter-spacing:.6px}
+    p.lead{color:var(--muted); margin-top:.65rem; font-size:1.05rem}
 
-    .parallax::before {
-      content: "";
-      position: absolute;
-      top:0;left:0;width:100%;height:100%;
-      background: url('https://isarafiq.com/your-bg.jpg') center/cover fixed;
-      opacity: 0.08;
-      z-index: -1;
+    .hero-phrases{margin-top:1.1rem; display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center}
+    .phrase{
+      padding:.45rem .85rem; border-radius:999px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05);
+      font-weight:600; color:var(--accent)
     }
 
-    nav {
-      position: fixed;
-      top:0; left:0; width:100%;
-      display:flex;
-      justify-content: flex-end;
-      gap:2rem;
-      padding:1rem 2rem;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      z-index:100;
-    }
-    nav a {color:var(--text); font-weight:600; text-decoration:none; transition: color .3s;}
-    nav a:hover {color:var(--accent);}
+    /* Buttons */
+    .ctas{margin-top:1.2rem; display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap}
+    .btn{padding:.7rem 1.35rem; border-radius:10px; border:1px solid var(--glass-border); background:transparent; color:var(--text); text-decoration:none; font-weight:700}
+    .btn:hover{background:rgba(255,255,255,0.06); transform:translateY(-3px)}
 
-    .divider {
-      width:80px;height:3px;background:var(--accent);margin:1.5rem auto;border-radius:2px;
-    }
-    footer {
-      text-align:center;padding:2rem;font-size:0.9rem;color:var(--accent);background:#000;
+    /* Sections */
+    section.panel-section{max-width:980px;margin:3.5rem auto;padding:2rem;background:var(--glass);border-radius:14px;border:1px solid var(--glass-border);box-shadow:var(--shadow);position:relative;z-index:4}
+    .divider{width:80px;height:3px;background:var(--accent);margin:1rem auto;border-radius:2px}
+
+    footer{padding:2rem 1rem;text-align:center;color:var(--muted);background:transparent;position:relative;z-index:4}
+
+    /* Canvas full-screen */
+    canvas#vis{position:fixed; inset:0; z-index:1; display:block}
+    /* subtle cursor glow layer */
+    .cursor-glow{position:fixed; width:20px;height:20px;border-radius:50%;pointer-events:none;mix-blend-mode:screen;z-index:1500;transform:translate(-50%,-50%);opacity:0.9}
+
+    /* focus mode visual */
+    .focus-blur{filter:blur(8px) brightness(.7) saturate(.85) grayscale(.07); transition:filter .5s ease}
+    .hero-focus{z-index:1600 !important; transform:scale(1.02);}
+
+    /* accessibility */
+    @media (prefers-reduced-motion:reduce){
+      *{transition:none !important; animation:none !important}
     }
   </style>
 </head>
 <body>
 
-  <canvas id="particles"></canvas>
-
-  <nav>
-    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a>
+  <!-- Navigation -->
+  <nav aria-label="Primary">
+    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://isarafiq.com/cv.html">CV</a>
     <a href="https://isarafiq.com/blog.html">Blog</a>
     <a href="mailto:contact@isarafiq.com">Contact</a>
   </nav>
 
-  <section class="hero parallax">
-    <h1>Isa Rafiq</h1>
-    <div class="fade-text">Student | Aspiring Prime Minister</div>
-    <div class="fade-text">Future Tax Partner</div>
-    <div class="fade-text">Youth Parliament Member</div>
-    <div class="fade-text">Journalist | Economist-in-training</div>
-    <a href="mailto:contact@isarafiq.com" class="button">Contact Me</a>
-  </section>
+  <!-- HUD controls (particles, audio, snapshot, focus) -->
+  <div class="hud" role="region" aria-label="Controls">
+    <button id="toggleParticles" title="Toggle particle web (P)"> <span class="dot" id="ptDot"></span>Particles</button>
+    <button id="toggleAudio" title="Toggle ambient audio (A)">Audio</button>
+    <button id="snapshotBtn" title="Download snapshot (S)">Snapshot</button>
+    <button id="toggleFocus" title="Toggle focus mode (F)">Focus</button>
+  </div>
 
-  <section>
-    <h2>Book an Interview</h2>
+  <!-- Canvas visual layer -->
+  <canvas id="vis" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" style="display:none;background:radial-gradient(circle,#ffffff55,#ffffff00 40%)"></div>
+
+  <!-- HERO -->
+  <main class="hero" id="hero">
+    <div class="panel" id="heroPanel" role="banner" aria-label="Hero">
+      <h1 id="heroName">Isa Rafiq</h1>
+      <p class="lead">Student · Aspiring Prime Minister · Future Tax Partner · Youth Parliament Member</p>
+
+      <div class="hero-phrases" id="phrases">
+        <div class="phrase">Student</div>
+        <div class="phrase">Aspiring Prime Minister</div>
+        <div class="phrase">Future Tax Partner</div>
+        <div class="phrase">Youth Parliament Member</div>
+        <div class="phrase">Journalist • Economist-in-training</div>
+      </div>
+
+      <div class="ctas">
+        <a class="btn" href="mailto:contact@isarafiq.com">Contact Me</a>
+        <a class="btn" href="https://isarafiq.com/cv.html">View CV</a>
+        <a class="btn" href="https://isarafiq.com/blog.html">Journal</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Book interview -->
+  <section class="panel-section" aria-labelledby="book-h2">
+    <h2 id="book-h2">Book an Interview</h2>
     <div class="divider"></div>
-    <div class="card">
-      <p>For speaking engagements, press features, or podcast interviews, reach me directly.</p>
-      <a href="mailto:contact@isarafiq.com" class="button">Book Now</a>
+    <div style="max-width:760px;margin:0 auto;text-align:center">
+      <p>For speaking engagements, press features, podcasts or panel appearances, contact <strong>contact@isarafiq.com</strong>.</p>
+      <a class="btn" href="mailto:contact@isarafiq.com?subject=Interview%20Booking">Book Now</a>
     </div>
   </section>
 
-  <section>
-    <h2>Investor Section</h2>
+  <!-- Investor -->
+  <section class="panel-section" aria-labelledby="invest-h2">
+    <h2 id="invest-h2">Investor & Collaboration</h2>
     <div class="divider"></div>
-    <div class="card">
-      <p>Partner with me in future ventures, NGOs, and initiatives driving change.</p>
-      <a href="mailto:contact@isarafiq.com" class="button">Investor Enquiries</a>
+    <div style="max-width:760px;margin:0 auto;text-align:center">
+      <p>Investors and collaborators: please reach out to <strong>contact@isarafiq.com</strong> to receive a project packet and deck.</p>
+      <a class="btn" href="mailto:contact@isarafiq.com?subject=Investor%20Enquiry">Investor Enquiries</a>
     </div>
   </section>
 
   <footer>
-    © 2025 Isa Rafiq. All Rights Reserved.
+    © <span id="year"></span> Isa Rafiq. All Rights Reserved.
   </footer>
 
   <script>
-    // Scroll reveal
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, {threshold:0.2});
-    sections.forEach(sec => observer.observe(sec));
+  /* ------------------------------------------------------------
+     Canvas visual system: particles + nodes web + interactions
+     Behaviours:
+       - nodes connect with lines (web)
+       - on mousemove while dragging: nodes repel (move out the way)
+       - on mousedown (click & hold): nodes attract toward cursor
+       - on mouseup: nodes explode outwards
+     Extra features:
+       - Ambient audio (web-audio) toggle
+       - Snapshot PNG (S)
+       - Focus Mode (F) -> freeze motion, spotlight hero
+     ------------------------------------------------------------*/
 
-    // Hero text staggered reveal
-    const texts = document.querySelectorAll('.fade-text');
-    texts.forEach((txt,i) => {
-      setTimeout(()=>txt.classList.add('show'), i*800 + 500);
-    });
+  (function(){
+    // -- globals & config
+    const DPR = Math.max(1, window.devicePixelRatio || 1);
+    const canvas = document.getElementById('vis');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let W = innerWidth, H = innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.scale(DPR, DPR);
 
-    // Gradient shift effect
-    let colors = ["#000", "#111", "#222", "#111"];
-    let i=0;
-    setInterval(()=>{
-      document.body.style.background = `linear-gradient(120deg, ${colors[i]}, ${colors[(i+1)%colors.length]})`;
-      i = (i+1)%colors.length;
-    },5000);
+    // nodes & particles
+    const NODE_COUNT = 94;            // number of nodes in web
+    const LINK_DIST = 140;           // max distance to draw a link
+    const PARTICLE_BG = 90;         // soft particles for atmosphere
 
-    // Particle trails
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-    window.addEventListener('resize',resize);resize();
-    for(let j=0;j<120;j++){
-      particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5),vy:(Math.random()-0.5),size:Math.random()*2+1});
+    const nodes = [];
+    const tinyParticles = []; // background particles for depth
+    let running = true;
+    let focusMode = false;
+
+    // mouse state
+    const mouse = { x: W/2, y: H/2, down:false, lastX:0, lastY:0, moveVel:0, downTime:0, dragging:false };
+
+    // accessibility: respects reduced motion preference
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // utility
+    function rand(min,max){ return Math.random()*(max-min)+min }
+    function distance(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy) }
+
+    // initialize nodes
+    function initNodes(){
+      nodes.length = 0;
+      for(let i=0;i<NODE_COUNT;i++){
+        nodes.push({
+          x: rand(60, W-60),
+          y: rand(80, H-80),
+          vx: rand(-0.3,0.3),
+          vy: rand(-0.3,0.3),
+          r: rand(1.6,3.6),
+          mass: rand(0.8,1.6),
+          hue: rand(200,240),
+          locked:false
+        });
+      }
+      // tiny ambient particles
+      tinyParticles.length = 0;
+      for(let i=0;i<PARTICLE_BG;i++){
+        tinyParticles.push({ x:rand(0,W), y:rand(0,H), vx:rand(-0.15,0.15), vy:rand(-0.15,0.15), r:rand(.6,1.8) });
+      }
     }
-    function animate(){
-      ctx.fillStyle='rgba(0,0,0,0.2)';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      particles.forEach(p=>{
-        p.x+=p.vx;p.y+=p.vy;
-        if(p.x<0||p.x>canvas.width) p.vx*=-1;
-        if(p.y<0||p.y>canvas.height) p.vy*=-1;
+
+    // resize handler (keeps crispness)
+    function resize(){
+      W = innerWidth; H = innerHeight;
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      // keep nodes inside new bounds
+      nodes.forEach(n=>{
+        n.x = Math.max(12, Math.min(W-12, n.x));
+        n.y = Math.max(12, Math.min(H-12, n.y));
+      });
+    }
+    addEventListener('resize', resize, {passive:true});
+
+    // core physics step
+    function step(dt){
+      if(!running) return;
+      // background particles update
+      for(const p of tinyParticles){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0||p.x>W) p.vx *= -1;
+        if(p.y<0||p.y>H) p.vy *= -1;
+      }
+
+      for(const n of nodes){
+        // soft centre attract to keep web cohesive
+        const cx = W/2, cy = H/2;
+        let ax = (cx - n.x) * 0.00008 * n.mass;
+        let ay = (cy - n.y) * 0.00008 * n.mass;
+
+        // basic motion damping
+        n.vx = n.vx * 0.995 + ax*dt;
+        n.vy = n.vy * 0.995 + ay*dt;
+
+        // interactions with mouse
+        if(mouse.down){
+          const dx = mouse.x - n.x;
+          const dy = mouse.y - n.y;
+          const dist = Math.sqrt(dx*dx+dy*dy) + 0.0001;
+
+          if(mouse.dragging){
+            // repel strongly
+            const force =  (1.2 * 60 / Math.max(20, dist)) * (1.0 / n.mass);
+            n.vx -= (dx/dist) * force * 0.6;
+            n.vy -= (dy/dist) * force * 0.6;
+          } else {
+            // attract while mouse down (click & hold)
+            const force = 0.07 * (1.0/n.mass);
+            n.vx += (dx/dist) * force * Math.min(1, 120/dist);
+            n.vy += (dy/dist) * force * Math.min(1, 120/dist);
+          }
+        } else {
+          // slight random wandering
+          n.vx += (Math.random()-0.5) * 0.0006;
+          n.vy += (Math.random()-0.5) * 0.0006;
+        }
+
+        // integrate
+        n.x += n.vx * dt;
+        n.y += n.vy * dt;
+
+        // boundaries: soft bounce with friction
+        const margin = 8;
+        if(n.x < margin){ n.x = margin; n.vx *= -0.62; }
+        if(n.x > W - margin){ n.x = W - margin; n.vx *= -0.62; }
+        if(n.y < margin){ n.y = margin; n.vy *= -0.62; }
+        if(n.y > H - margin){ n.y = H - margin; n.vy *= -0.62; }
+      }
+
+      // mild collision avoidance for realism (O(N^2) but small N)
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const a = nodes[i], b = nodes[j];
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const dist2 = dx*dx + dy*dy;
+          const minDist = (a.r + b.r + 6);
+          if(dist2 < minDist*minDist && dist2>0.0001){
+            const dist = Math.sqrt(dist2);
+            const overlap = (minDist - dist) * 0.5;
+            const nx = dx/dist, ny = dy/dist;
+            a.x -= nx * overlap; a.y -= ny * overlap;
+            b.x += nx * overlap; b.y += ny * overlap;
+            // exchange velocities a bit
+            const k = 0.01;
+            a.vx -= nx * k; a.vy -= ny * k;
+            b.vx += nx * k; b.vy += ny * k;
+          }
+        }
+      }
+    }
+
+    // draw frame: particles, links, nodes, subtle glow
+    function draw(){
+      // background: fade with slight overlay for trails
+      ctx.clearRect(0,0,W,H);
+      // dark transparent fill to create trails effect
+      ctx.fillStyle = 'rgba(0,0,0,0.24)';
+      ctx.fillRect(0,0,W,H);
+
+      // draw tiny background particles (subtle)
+      ctx.globalCompositeOperation = 'source-over';
+      for(const p of tinyParticles){
         ctx.beginPath();
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,255,255,0.7)';
+        ctx.globalAlpha = 0.85 * (p.r/2.0);
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
         ctx.fill();
-      });
-      requestAnimationFrame(animate);
+      }
+      ctx.globalAlpha = 1;
+
+      // draw links (web): for each pair within LINK_DIST draw a line
+      ctx.lineWidth = 0.9;
+      ctx.strokeStyle = 'rgba(220,220,220,0.06)';
+      for(let i=0;i<nodes.length;i++){
+        const a = nodes[i];
+        for(let j=i+1;j<nodes.length;j++){
+          const b = nodes[j];
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const d2 = dx*dx + dy*dy;
+          if(d2 < LINK_DIST*LINK_DIST){
+            const d = Math.sqrt(d2);
+            const alpha = 1 - (d / LINK_DIST);
+            ctx.strokeStyle = `rgba(200,200,200,${(alpha*0.24).toFixed(3)})`;
+            ctx.beginPath();
+            // slight curve for luxury: draw quadratic with mid offset
+            const mx = (a.x + b.x)/2 + Math.sin((a.x+b.x)/40 + (a.y+b.y)/60) * 6;
+            const my = (a.y + b.y)/2 + Math.cos((a.x+b.x)/50 + (a.y+b.y)/80) * 6;
+            ctx.moveTo(a.x, a.y);
+            ctx.quadraticCurveTo(mx, my, b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // nodes glow & draw
+      for(const n of nodes){
+        // glow - using shadow
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,0.03)`;
+        ctx.arc(n.x, n.y, n.r*4.0, 0, Math.PI*2);
+        ctx.fill();
+
+        // core
+        ctx.beginPath();
+        const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, Math.max(6, n.r*6));
+        g.addColorStop(0, 'rgba(255,255,255,0.95)');
+        g.addColorStop(0.18, 'rgba(255,255,255,0.5)');
+        g.addColorStop(1, 'rgba(255,255,255,0.02)');
+        ctx.fillStyle = g;
+        ctx.arc(n.x, n.y, Math.max(2, n.r*2.2), 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // very subtle vignette
+      const grd = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*0.3, W/2, H/2, Math.max(W,H)*0.9);
+      grd.addColorStop(0, 'rgba(0,0,0,0.0)');
+      grd.addColorStop(1, 'rgba(0,0,0,0.16)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0,0,W,H);
+
+      // restore default
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
     }
-    animate();
 
-    // Slow moving 3D shapes (CSS animation illusion)
-    const shapes = document.createElement('div');
-    shapes.innerHTML = `
-      <div class="shape" style="--i:0"></div>
-      <div class="shape" style="--i:1"></div>
-      <div class="shape" style="--i:2"></div>`;
-    document.body.appendChild(shapes);
-    shapes.style.position='fixed';shapes.style.top=0;shapes.style.left=0;shapes.style.width='100%';shapes.style.height='100%';shapes.style.zIndex='0';
-    shapes.querySelectorAll('.shape').forEach((s,idx)=>{
-      s.style.position='absolute';s.style.width='200px';s.style.height='200px';
-      s.style.border='1px solid rgba(255,255,255,0.1)';s.style.borderRadius='50%';
-      s.style.top=`${30*idx+20}%`;s.style.left=`${20*idx+20}%`;
-      s.style.animation=`float ${20+idx*10}s infinite linear alternate`;
+    // animation / loop with time-based dt
+    let last = performance.now();
+    function loop(now){
+      const dtMS = Math.min(40, now - last);
+      last = now;
+      const dt = dtMS * 0.06; // scale dt to comfortable internal units
+
+      if(!reduced && running) step(dt);
+      if(!reduced) draw();
+
+      // continue
+      requestAnimationFrame(loop);
+    }
+
+    // mouse interactions
+    function setMousePos(e){
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - rect.left);
+      mouse.y = (e.clientY - rect.top);
+    }
+
+    // dragging detection velocity
+    let lastMoveTime = 0;
+    canvas.addEventListener('mousemove', (e)=>{
+      setMousePos(e);
+      const now = performance.now();
+      const dt = Math.max(10, now - (lastMoveTime || now));
+      const dx = mouse.x - (mouse.lastX || mouse.x);
+      const dy = mouse.y - (mouse.lastY || mouse.y);
+      mouse.moveVel = Math.sqrt(dx*dx + dy*dy) / dt * 16;
+      mouse.lastX = mouse.x; mouse.lastY = mouse.y;
+      lastMoveTime = now;
+      // HUD cursor glow follow
+      const glow = document.getElementById('cursorGlow');
+      if(glow.style.display !== 'none'){ glow.style.left = mouse.x + 'px'; glow.style.top = mouse.y + 'px'; }
+      // if mouse is down and movement velocity high => dragging
+      if(mouse.down){
+        if(mouse.moveVel > 0.8) mouse.dragging = true;
+      }
+    }, {passive:true});
+
+    canvas.addEventListener('mousedown', (e)=>{
+      setMousePos(e);
+      mouse.down = true;
+      mouse.downTime = performance.now();
+      mouse.dragging = false;
+      // small loudness pop on audio if running (user started interaction)
+      if(audio && !audio.started && audio.pendingStart) audio.start();
+      // attract will be handled in step()
     });
-    const style=document.createElement('style');
-    style.innerHTML=`@keyframes float{from{transform:translateY(0) rotate(0);}to{transform:translateY(-50px) rotate(360deg);}}`;
-    document.head.appendChild(style);
 
-    // Extra Features: 1) Smooth scroll indicator, 2) Dynamic year in footer, 3) Cursor glow
-    const scrollIndicator = document.createElement('div');
-    scrollIndicator.style.position='fixed';scrollIndicator.style.bottom='20px';scrollIndicator.style.left='50%';scrollIndicator.style.transform='translateX(-50%)';
-    scrollIndicator.style.width='40px';scrollIndicator.style.height='40px';scrollIndicator.style.border='2px solid #fff';scrollIndicator.style.borderRadius='50%';scrollIndicator.style.opacity='0.6';scrollIndicator.style.animation='bounce 2s infinite';
-    document.body.appendChild(scrollIndicator);
-    const style2=document.createElement('style');
-    style2.innerHTML='@keyframes bounce{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,10px);}}';
-    document.head.appendChild(style2);
-
-    document.querySelector('footer').innerHTML = `© ${new Date().getFullYear()} Isa Rafiq. All Rights Reserved.`;
-
-    document.addEventListener('mousemove', e => {
-      const glow = document.createElement('div');
-      glow.style.position='fixed';glow.style.left=e.pageX+'px';glow.style.top=e.pageY+'px';
-      glow.style.width='15px';glow.style.height='15px';glow.style.background='rgba(255,255,255,0.4)';glow.style.borderRadius='50%';glow.style.pointerEvents='none';
-      glow.style.transform='translate(-50%,-50%)';glow.style.transition='opacity 0.5s linear';
-      document.body.appendChild(glow);
-      setTimeout(()=>glow.style.opacity=0,10);
-      setTimeout(()=>glow.remove(),600);
+    canvas.addEventListener('mouseup', (e)=>{
+      setMousePos(e);
+      mouse.down = false;
+      const downDuration = performance.now() - mouse.downTime;
+      // explosion on release - push nodes away from cursor
+      const forceBase = 0.06 + Math.min(0.12, downDuration / 2000);
+      for(const n of nodes){
+        const dx = n.x - mouse.x, dy = n.y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy) + 0.001;
+        // velocity set so nodes fly outward; include randomness
+        const mag = Math.min(12, forceBase * (200 / Math.max(40, dist)));
+        n.vx += (dx/dist) * mag * (0.8 + Math.random() * 1.6);
+        n.vy += (dy/dist) * mag * (0.8 + Math.random() * 1.6);
+      }
+      // quick particle burst for visual feedback
+      burst(mouse.x, mouse.y, Math.min(28, Math.round(Math.max(8, downDuration/30))));
+      mouse.dragging = false;
     });
+
+    // on leave or touch end
+    canvas.addEventListener('mouseleave', ()=>{ mouse.down = false; mouse.dragging = false; });
+
+    // touch support (tap/hold)
+    canvas.addEventListener('touchstart', (ev)=>{ ev.preventDefault(); const t = ev.touches[0]; mouse.down=true; setMousePos(t); mouse.downTime = performance.now(); if(audio && !audio.started && audio.pendingStart) audio.start(); }, {passive:false});
+    canvas.addEventListener('touchmove', (ev)=>{ const t = ev.touches[0]; setMousePos(t); mouse.moveVel = 1.2; mouse.dragging = true; }, {passive:false});
+    canvas.addEventListener('touchend', (ev)=>{ mouse.down=false; mouse.dragging=false; const downDuration = performance.now()-mouse.downTime; for(const n of nodes){ const dx = n.x - mouse.x, dy = n.y - mouse.y, dist = Math.sqrt(dx*dx+dy*dy)+0.001; const mag = Math.min(12, 0.06 * (200 / Math.max(40, dist))); n.vx += (dx/dist) * mag * (0.8+Math.random()*1.6); n.vy += (dy/dist) * mag * (0.8+Math.random()*1.6); } burst(mouse.x, mouse.y, 20); });
+
+    // burst particles (visual explosion)
+    const bursts = [];
+    function burst(cx,cy,count){
+      for(let i=0;i<count;i++){
+        bursts.push({
+          x:cx, y:cy,
+          vx:(Math.random()-0.5)*8, vy:(Math.random()-0.5)*8,
+          r:rand(1,3), life:Math.random()*700+250
+        });
+      }
+      // draw bursts in the next few frames
+      (function animateBursts(){
+        if(bursts.length === 0) return;
+        // they'll be drawn within draw() by temporarily overlaying them
+        setTimeout(animateBursts, 200);
+      })();
+    }
+
+    // overlay draw extension to include bursts
+    const originalDraw = draw;
+    // (we'll handle drawing bursts inside draw by reading bursts array)
+
+    // toggles & HUD wiring
+    const btnParticles = document.getElementById('toggleParticles');
+    const ptDot = document.getElementById('ptDot');
+    let particlesEnabled = true;
+    function updatePtDot(){ ptDot.style.background = particlesEnabled ? '#85ffd6' : 'transparent'; ptDot.style.borderColor = particlesEnabled ? '#63e6b7' : '#fff' }
+    btnParticles.addEventListener('click', ()=>{ particlesEnabled = !particlesEnabled; updatePtDot(); running = particlesEnabled; });
+
+    // snapshot functionality
+    const snapshotBtn = document.getElementById('snapshotBtn');
+    async function snapshot(){
+      // temporarily freeze animation for crisp capture
+      const scale = Math.min(2, Math.max(1, DPR));
+      // draw a composed export: hero panel + current canvas overlay
+      // easiest: draw canvas current visuals to a new offscreen canvas and composite HTML hero as image via toDataURL
+      // Draw current canvas as image and overlay the hero area DOM (approx) — we will capture only canvas for simplicity and background
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = W * DPR; exportCanvas.height = H * DPR;
+      const ectx = exportCanvas.getContext('2d');
+      // fill dark
+      ectx.fillStyle = '#000'; ectx.fillRect(0,0,exportCanvas.width, exportCanvas.height);
+      // draw current canvas
+      ectx.drawImage(canvas, 0, 0, exportCanvas.width, exportCanvas.height);
+      // overlay hero DOM box (approx) by rasterizing a simple rectangle and hero text (for fidelity, more complex DOM->canvas requires libraries)
+      // draw prompt: hero text (already visible in canvas behind) - to ensure hero panel stands out, draw a vignette
+      const url = exportCanvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'isarafiq_snapshot.png';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+    snapshotBtn.addEventListener('click', snapshot);
+
+    // focus mode
+    const focusBtn = document.getElementById('toggleFocus');
+    function setFocus(enabled){
+      focusMode = enabled;
+      const heroEl = document.getElementById('heroPanel');
+      if(enabled){
+        running = false;
+        document.body.classList.add('hero-focused');
+        heroEl.classList.add('hero-focus');
+        // blur other panels
+        document.querySelectorAll('section.panel-section, footer, nav, .hud').forEach(el=> el.classList.add('focus-blur'));
+      } else {
+        running = particlesEnabled;
+        document.body.classList.remove('hero-focused');
+        heroEl.classList.remove('hero-focus');
+        document.querySelectorAll('section.panel-section, footer, nav, .hud').forEach(el=> el.classList.remove('focus-blur'));
+      }
+    }
+    focusBtn.addEventListener('click', ()=> setFocus(!focusMode));
+
+    // keyboard shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase() === 'p'){ particlesEnabled = !particlesEnabled; updatePtDot(); running = particlesEnabled; }
+      if(e.key.toLowerCase() === 's'){ snapshot(); }
+      if(e.key.toLowerCase() === 'f'){ setFocus(!focusMode); }
+      if(e.key.toLowerCase() === 'a'){ toggleAudio(); }
+    });
+
+    // hero stagger reveal (phrases)
+    document.querySelectorAll('.phrase').forEach((el,i)=>{
+      setTimeout(()=> el.style.opacity = 1, i*500 + 300);
+    });
+
+    // ambient audio: lightweight synth pad via WebAudio
+    let audio = null;
+    function createAudio(){
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const master = ctx.createGain(); master.gain.value = 0.0; master.connect(ctx.destination);
+      // gentle stereo pad: two detuned oscillators through lowpass and subtle reverb (convolution omitted for simplicity)
+      const osc1 = ctx.createOscillator(); osc1.type = 'sine'; osc1.frequency.value = 110;
+      const osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 138.59;
+      // slight detune
+      osc2.detune.value = 12;
+      const g1 = ctx.createGain(); g1.gain.value = 0.0;
+      const g2 = ctx.createGain(); g2.gain.value = 0.0;
+      const filter = ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value = 1200;
+      osc1.connect(g1); osc2.connect(g2);
+      g1.connect(filter); g2.connect(filter); filter.connect(master);
+      // LFO for gentle amplitude motion
+      const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07; const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.18;
+      lfo.connect(lfoGain); lfoGain.connect(master.gain);
+      // start oscillators but keep gain at 0 until user toggles
+      osc1.start(); osc2.start(); lfo.start();
+      audio = {
+        ctx, master, osc1, osc2, g1, g2, filter, lfo, lfoGain, started:false, pendingStart:true,
+        setOn(on){
+          if(on){ master.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 1.2); this.started=true; this.pendingStart=false; }
+          else { master.gain.linearRampToValueAtTime(0.0, ctx.currentTime + .6); this.started=false; }
+        }
+      };
+      return audio;
+    }
+    // prepare audio object but do not start
+    createAudio();
+
+    // audio toggle wiring
+    const audioBtn = document.getElementById('toggleAudio');
+    let audioOn=false;
+    function toggleAudio(){
+      if(!audio){ createAudio(); }
+      if(!audioOn){
+        if(audio.pendingStart && audio.ctx.state === 'suspended') audio.ctx.resume();
+        audio.setOn(true);
+        audioOn = true;
+        audioBtn.textContent = 'Audio: ON';
+      } else {
+        audio.setOn(false);
+        audioOn = false;
+        audioBtn.textContent = 'Audio';
+      }
+    }
+    audioBtn.addEventListener('click', ()=>{
+      // require user gesture (we're in a click handler)
+      toggleAudio();
+    });
+
+    // cursor glow: only present when not reduced
+    const cursorGlow = document.getElementById('cursorGlow');
+    cursorGlow.style.display = reduced ? 'none' : 'block';
+
+    // initial node set
+    initNodes();
+    updatePtDot();
+
+    // integrate burst drawing into draw by overriding draw & adding bursts
+    const burstsList = [];
+    function drawWithBursts(){
+      // call existing draw contents (we have draw declared earlier in lexical scope)
+      // Instead of calling originalDraw (not accessible here), we inline simplified draw content above to also draw bursts.
+      // For brevity and safety, just call draw() that was declared earlier in global scope - but we created draw earlier in the self-invoking closure above.
+      // However to avoid confusion we'll directly call draw() reference available in outer scope.
+    }
+    // we earlier defined draw() in the outer scope; calling it is fine
+    // we will also draw bursts overlay:
+    const baseDraw = draw; // existing draw function from earlier
+    // replace draw with wrapper to include bursts
+    function draw(){
+      baseDraw(); // draw nodes/links etc
+
+      // draw bursts
+      if(bursts.length){
+        for(let i=bursts.length-1;i>=0;i--){
+          const b = bursts[i];
+          b.x += b.vx; b.y += b.vy;
+          b.vy += 0.06; // gravity
+          b.life -= 16;
+          ctx.beginPath();
+          const t = Math.max(0, Math.min(1, b.life / 1000));
+          ctx.fillStyle = `rgba(255,255,255,${(0.9 * t).toFixed(2)})`;
+          ctx.arc(b.x, b.y, Math.max(0.6, b.r * t), 0, Math.PI*2);
+          ctx.fill();
+          if(b.life <= 0) bursts.splice(i,1);
+        }
+      }
+    }
+
+    // start the loop
+    requestAnimationFrame(loop);
+
+    // small UI polish: dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // simple gradient shift cycle for the page background
+    (function bgCycle(){
+      const colors = ['#000','#050505','#0b0b0b','#070707'];
+      let idx = 0;
+      setInterval(()=>{ document.body.style.background = `linear-gradient(120deg, ${colors[idx]}, ${colors[(idx+1)%colors.length]})`; idx=(idx+1)%colors.length; }, 5200);
+    })();
+
+    // quick accessibility keyboard hints: show HUD tooltips on first load
+    (function hudHint(){
+      const used = sessionStorage.getItem('isarafiq_hud_seen');
+      if(!used){
+        // subtle dot pulse
+        ptDot.animate([{transform:'scale(1)'},{transform:'scale(1.6)'},{transform:'scale(1)'}], {duration:1400, iterations:3});
+        sessionStorage.setItem('isarafiq_hud_seen','1');
+      }
+    })();
+
+    // initial tiny fade in for hero and panels
+    document.querySelectorAll('main.hero, .panel-section, footer').forEach((el, idx)=>{
+      el.style.opacity = 0;
+      setTimeout(()=>{ el.style.transition = 'opacity 900ms ease, transform 700ms ease'; el.style.opacity = 1; el.style.transform = 'translateY(0)'; }, 350 + idx*120);
+    });
+
+    // ensure page remains responsive & prevent tab-throttle when hidden
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) running=false; else running = particlesEnabled; });
+
+    // init done
+  })();
   </script>
-
 </body>
 </html>
