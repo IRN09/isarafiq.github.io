@@ -1,283 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Isa Rafiq</title>
   <meta name="description" content="Isa Rafiq – Future Prime Minister, Tax Partner, and Youth Parliament Member" />
-  <meta property="og:title" content="Isa Rafiq" />
-  <meta property="og:description" content="Student | Politician | Economist | Journalist" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://isarafiq.com" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Isa’s Blog",
-  "url": "https://isarafiq.com",
-  "logo": "https://isarafiq.com/your-logo.png"
-}
-</script>
-
   <style>
     :root {
-      --primary: #000;
-      --accent: #00bcd4;
-      --text-light: #e0e0e0;
-      --button-bg: #1e1e1e;
-      --button-hover: #2c2c2c;
-      --glass: rgba(255, 255, 255, 0.05);
-      --border-glass: rgba(255, 255, 255, 0.15);
+      --bg: #000;
+      --text: #fff;
+      --accent: #888;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * {margin:0;padding:0;box-sizing:border-box;}
     body {
-      background-color: var(--primary);
-      color: var(--text-light);
       font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: var(--text-light);
-    }
-
-    .openbtn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 28px;
-      color: var(--accent);
-      background: none;
-      border: none;
-      z-index: 1100;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .openbtn:hover {
-      transform: rotate(90deg);
-    }
-
-    .sidebar {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: rgba(17,17,17,0.95);
       overflow-x: hidden;
-      transition: width 0.4s ease;
-      z-index: 1000;
-      padding-top: 60px;
-      backdrop-filter: blur(10px);
-      border-right: 1px solid var(--border-glass);
     }
-
-    .sidebar a {
-      padding: 12px 32px;
-      font-size: 1.2rem;
-      color: var(--text-light);
-      display: block;
-      transition: background 0.3s ease;
-    }
-
-    .sidebar a:hover, .sidebar a:focus {
-      background-color: var(--button-hover);
-    }
-
-    .sidebar .closebtn {
-      position: absolute;
-      top: 10px;
-      right: 25px;
-      font-size: 36px;
-      color: var(--accent);
-      cursor: pointer;
-    }
-
-    .container {
-      max-width: 680px;
-      margin: 7rem auto 4rem;
-      padding: 2rem;
-      border-radius: 15px;
-      background: var(--glass);
-      border: 1px solid var(--border-glass);
-      backdrop-filter: blur(12px);
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    h1 {
-      font-size: 2.75rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    p span {
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .button {
-      display: inline-block;
-      margin: 1.5rem 0.5rem 0;
-      padding: 0.75rem 1.6rem;
-      background: var(--button-bg);
-      border: 1px solid var(--border-glass);
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      font-weight: 600;
-    }
-
-    .button:hover {
-      background: var(--button-hover);
-      transform: scale(1.05);
-    }
-
-    .section {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: var(--glass);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-    }
-
-    .section h2 {
-      font-size: 1.9rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      color: var(--accent);
-    }
-
-    .card {
-      background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-glass);
-      border-radius: 10px;
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .read-more {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    /* Newsletter */
-    .newsletter form {
+    section {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
     }
-
-    .newsletter input[type="email"] {
-      padding: 0.75rem;
-      border: none;
-      border-radius: 5px;
-      background: #1e1e1e;
-      color: var(--text-light);
+    section.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-
-    .newsletter button {
-      padding: 0.75rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 5px;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    h1, h2 {
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
     }
-
-    .newsletter button:hover {
-      background: #00acc1;
+    .hero h1 {font-size: 3rem;}
+    .fade-text {
+      font-size: 1.4rem;
+      margin: 1rem 0;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
     }
-
-    @media (max-width: 768px) {
-      .container, .section {
-        margin: 2rem 1rem;
-        padding: 1.5rem;
-      }
+    .fade-text.show {opacity:1; transform:translateY(0);}
+    .button {
+      display:inline-block;
+      margin-top:1.5rem;
+      padding:0.8rem 1.8rem;
+      border:1px solid var(--accent);
+      color: var(--text);
+      text-decoration:none;
+      transition: all .3s ease;
+    }
+    .button:hover {background:var(--text);color:var(--bg);}
+    .card {
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:2rem;
+      border-radius:12px;
+      max-width:600px;
+      text-align:center;
+      margin:1rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar Toggle -->
-  <button class="openbtn" onclick="openNav()" aria-label="Open navigation">☰</button>
-
-  <!-- Sidebar -->
-  <nav id="mySidebar" class="sidebar" role="navigation" aria-label="Sidebar Navigation">
-    <button class="closebtn" onclick="closeNav()" aria-label="Close navigation">×</button>
-    <a href="index.html">Home</a>
-    <a href="cv.html">My CV</a>
-    <a href="mailto:contact@isarafiq.com">Contact</a>
-    <a href="blog.html">Blog</a>
-    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a>
-  </nav>
-
-  <!-- Hero Section -->
-  <main class="container" role="main">
+  <section class="hero">
     <h1>Isa Rafiq</h1>
-    <p><strong>Student</strong> | <span>Aspiring Prime Minister</span> | Future Tax Partner<br>
-    <span>Youth Parliament Member</span> | Journalist | Economist-in-training</p>
+    <div class="fade-text">Student | Aspiring Prime Minister</div>
+    <div class="fade-text">Future Tax Partner</div>
+    <div class="fade-text">Youth Parliament Member</div>
+    <div class="fade-text">Journalist | Economist-in-training</div>
     <a href="mailto:contact@isarafiq.com" class="button">Contact Me</a>
-    <a href="cv.html" class="button">View My CV</a>
-    <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" class="button" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-  </main>
-
-  <!-- Blog Preview -->
-  <section class="section" id="blog-preview">
-    <h2>📝 Featured Blog</h2>
-    <div class="card">
-      <h3>GCSEs</h3>
-      <p>GCSEs.</p>
-      <a href="blog.html#gcse" class="read-more">Read More →</a>
-    </div>
-    <a href="blog.html" class="button">Explore All Posts</a>
   </section>
 
-  <!-- Newsletter -->
-  <section class="section newsletter">
-    <h2>📬 Join My Newsletter</h2>
-    <form action="https://formspree.io/f/myzdgqgb" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required />
-      <button type="submit">Subscribe</button>
-    </form>
-    <!-- TODO: Replace "yourID" above with your actual Formspree form ID -->
+  <section>
+    <h2>Book an Interview</h2>
+    <div class="card">
+      <p>For speaking engagements, press features, or podcast interviews, reach me directly.</p>
+      <a href="mailto:contact@isarafiq.com" class="button">Book Now</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Investor Section</h2>
+    <div class="card">
+      <p>Partner with me in future ventures, NGOs, and initiatives driving change.</p>
+      <a href="mailto:contact@isarafiq.com" class="button">Investor Enquiries</a>
+    </div>
   </section>
 
   <script>
-    function openNav() {
-      const sidebar = document.getElementById("mySidebar");
-      sidebar.style.width = "250px";
-    }
+    // Scroll reveal
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, {threshold:0.2});
+    sections.forEach(sec => observer.observe(sec));
 
-    function closeNav() {
-      const sidebar = document.getElementById("mySidebar");
-      sidebar.style.width = "0";
-    }
+    // Hero text staggered reveal
+    const texts = document.querySelectorAll('.fade-text');
+    texts.forEach((txt,i) => {
+      setTimeout(()=>txt.classList.add('show'), i*800 + 500);
+    });
   </script>
+
 </body>
 </html>
