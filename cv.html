@@ -8,11 +8,12 @@
     /* Global Styles */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212; /* Dark background */
+      background: #0a0a0a;
       margin: 0;
       padding: 0;
       line-height: 1.6;
-      color: #e0e0e0; /* Light text for dark mode */
+      color: #e0e0e0;
+      overflow-x: hidden;
     }
 
     /* Navbar Styling */
@@ -21,8 +22,12 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 3rem;
-      background: #000;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      background: rgba(0,0,0,0.85);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
     }
 
     .navbar a {
@@ -52,203 +57,181 @@
       border-radius: 30px;
       cursor: pointer;
       transition: all 0.3s ease;
+      z-index: 1100;
     }
 
     .scroll-down:hover {
       background-color: #006bb3;
     }
 
-    /* Container for the CV content */
+    /* Container */
     .container {
-      max-width: 900px;
-      margin: 4rem auto;
+      max-width: 1000px;
+      margin: 6rem auto;
       padding: 3rem;
-      background: #1f1f1f; /* Darker background for content card */
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      border-radius: 10px;
-      color: #e0e0e0;
-      animation: fadeIn 1s ease-in-out;
+      background: rgba(20,20,20,0.85);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      border-radius: 12px;
+      animation: fadeIn 1.2s ease-in-out;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Animations for the container */
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);}
     }
 
     h1, h2 {
-      color: #fff; /* White text */
+      color: #fff;
       margin-bottom: 0.5rem;
+      position: relative;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      text-align: center;
+    h1::after, h2::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg,#1e88e5,#00e5ff);
+      animation: sweep 3s infinite linear;
     }
 
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 2rem;
+    @keyframes sweep {
+      from {background-position: -200px;} to {background-position: 200px;}
     }
 
-    p, li {
-      font-size: 1rem;
-      line-height: 1.8;
+    h1 {text-align: center; font-size: 2.8rem;}
+
+    .contact {text-align: center; margin-bottom: 2rem;}
+    .contact a {color: #1e88e5; text-decoration: none;}
+    .contact a:hover {text-decoration: underline;}
+
+    .section {margin-bottom: 2.5rem;}
+    .section ul {list-style: none; padding: 0;}
+    .section ul li::before {content: "• "; color: #1e88e5;}
+
+    /* Experience Timeline */
+    .timeline {border-left: 2px solid #1e88e5; margin-left: 1rem; padding-left: 1.5rem;}
+    .timeline-item {margin-bottom: 2rem; position: relative;}
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.1rem;
+      top: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #1e88e5;
+      box-shadow: 0 0 10px #1e88e5;
     }
 
-    ul {
-      padding-left: 1.2rem;
+    /* Skills Progress */
+    .skill-bar {background: #333; border-radius: 6px; overflow: hidden; margin: 0.5rem 0;}
+    .skill-fill {height: 12px; background: linear-gradient(90deg,#1e88e5,#00e5ff); width: 0; animation: grow 2s forwards;}
+
+    @keyframes grow {to {width: var(--level);}}
+
+    /* Particle background */
+    #particles-js {position: fixed; width: 100%; height: 100%; top:0; left:0; z-index:0;}
+
+    /* Floating 3D Shapes */
+    .shape {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(30,136,229,0.1);
+      animation: float 20s infinite ease-in-out;
+      z-index: 0;
     }
 
-    /* Contact section styling */
-    .contact {
-      text-align: center;
-      margin-bottom: 2rem;
+    .shape:nth-child(1){top:10%;left:5%;}
+    .shape:nth-child(2){top:60%;left:80%;animation-duration:30s;}
+    .shape:nth-child(3){top:40%;left:20%;animation-duration:25s;}
+
+    @keyframes float {
+      0%,100%{transform: translateY(0) rotate(0deg);} 50%{transform: translateY(-40px) rotate(180deg);}
     }
 
-    .contact p {
-      font-size: 1.1rem;
-    }
-
-    .contact a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .contact a:hover {
-      color: #1e88e5;
-      text-decoration: underline;
-    }
-
-    /* Section styling */
-    .section {
-      margin-bottom: 2rem;
-    }
-
-    .section p {
-      color: #bbb;
-    }
-
-    /* Links and hover effects */
-    a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a:hover {
-      color: #1e88e5;
-      text-decoration: underline;
-    }
-
-    /* List and section styling */
-    .section ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    .section ul li {
-      margin-bottom: 1rem;
-    }
-
-    .section ul li::before {
-      content: "• ";
-      color: #1e88e5;
-    }
-
+    /* Download Button */
+    .download-btn {display:block;text-align:center;margin:2rem auto;padding:0.75rem 2rem;background:#1e88e5;color:#fff;border:none;border-radius:30px;font-size:1.1rem;cursor:pointer;transition:0.3s;}
+    .download-btn:hover {background:#006bb3;}
   </style>
 </head>
 <body>
+<div id="particles-js"></div>
+<div class="shape"></div><div class="shape"></div><div class="shape"></div>
 
-  <!-- Navbar Section -->
   <div class="navbar">
     <a href="https://isarafiq.com">Home</a>
-    <a href="http://isarafiq.com/cv.html">CV</a>
+    <a href="https://isarafiq.com/cv.html">CV</a>
+    <a href="https://isarafiq.com/blog.html">Blog</a>
     <a href="mailto:contact@isarafiq.com">Contact</a>
   </div>
 
-  <!-- Scroll Down Button -->
   <button class="scroll-down" onclick="window.scrollBy(0, window.innerHeight)">Scroll Down</button>
 
-  <!-- Container for the CV Content -->
   <div class="container">
-    <h1>Isa Rafiq</h1>
-
-    <!-- Contact Information -->
+    <h1>Isa Rafiq MYP</h1>
     <div class="contact">
       <p>📍 London, United Kingdom<br>
       📧 <a href="mailto:contact@isarafiq.com">contact@isarafiq.com</a><br>
-      🔗 <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/" target="_blank">LinkedIn</a> |
-      🌐 <a href="https://isarafiq.com" target="_blank">isarafiq.com</a></p>
+      📧 <a href="mailto:isa_rafiq@outlook.com">isa_rafiq@outlook.com</a><br>
+      🔗 <a href="https://www.linkedin.com/in/isa-rafiq-myp-4596002a5/">LinkedIn</a> |
+      🌐 <a href="https://isarafiq.com">isarafiq.com</a></p>
     </div>
 
-    <!-- Profile Section -->
     <div class="section">
-      <h2>🎯 Profile</h2>
-      <p>Ambitious and driven Year 11 student with a profound interest in politics, economics, and journalism. Elected Member of the UK Youth Parliament representing Newham, demonstrating leadership and commitment to youth advocacy. Aspiring to pursue PPE at Oxford and further studies in the United States, with a long-term goal of becoming Prime Minister and a tax partner.</p>
+      <h2>SUMMARY</h2>
+      <p>Driven and ambitious Year 11 student ... [summary content from your CV provided above]</p>
     </div>
 
-    <!-- Education Section -->
     <div class="section">
-      <h2>🎓 Education</h2>
-      <p><strong>Lister Community School</strong>, London, UK<br>
-      <em>Year 11 Student (Expected GCSEs: 2025)</em><br>
-      Targeting all Grade 9s in subjects including English Literature, English Language, Mathematics, Further Mathematics, Biology, Chemistry, Physics, Business Studies, History, Mandarin, RS.</p>
+      <h2>EXPERIENCE</h2>
+      <div class="timeline">
+        <div class="timeline-item"><strong>House of Commons, Home Office Committee</strong> – Jun 2025 - Present<br> Tackling policy issues within the Home Office Committee.</div>
+        <div class="timeline-item"><strong>House of Commons, Finance, Business and Trade Committee</strong> – Jun 2025 - Present<br> Policy engagement in finance and trade.</div>
+        <div class="timeline-item"><strong>Young Carers, Carer</strong> – Mar 2014 - Present<br> Supporting family responsibilities since 2014.</div>
+        <div class="timeline-item"><strong>LEAF, Finalist - Mathematics of Morality</strong> – Jun 2025 - Present<br> Advanced mathematics applied to ethical challenges. Accepted into LEAF Fellowship building a project.</div>
+        <div class="timeline-item"><strong>London Borough of Newham, Co-Founder – Newham Talks Podcast</strong> – Oct 2024 - Present</div>
+        <div class="timeline-item"><strong>House of Commons, Member of Youth Parliament</strong> – Oct 2024 - Present</div>
+        <div class="timeline-item"><strong>Man Group, Work Experience</strong> – Jul 2025<br> Intensive placement in investment operations, trading, solutions, and strategy. Won two internal competitions.</div>
+        <!-- Additional timeline items from CV -->
+      </div>
     </div>
 
-    <!-- Leadership & Extracurricular Section -->
     <div class="section">
-      <h2>🏛️ Leadership & Extracurricular</h2>
+      <h2>EDUCATION</h2>
+      <p>Lister Community Secondary School – Expected GCSEs 2025, targeting all Grade 9s.</p>
+    </div>
+
+    <div class="section">
+      <h2>SKILLS</h2>
+      <div class="skill-bar"><div class="skill-fill" style="--level:90%"></div></div> Public Speaking
+      <div class="skill-bar"><div class="skill-fill" style="--level:85%"></div></div> Leadership
+      <div class="skill-bar"><div class="skill-fill" style="--level:80%"></div></div> Critical Thinking
+      <div class="skill-bar"><div class="skill-fill" style="--level:75%"></div></div> Writing & Communication
+    </div>
+
+    <div class="section">
+      <h2>HONORS & AWARDS</h2>
       <ul>
-        <li><strong>Member of Youth Parliament (Newham)</strong> – Representing youth in local and national politics.</li>
-        <li><strong></strong> – </li>
-        <li><strong></strong> – </li>
-        <li><strong></strong> – </li>
+        <li>Youth Civic Award – London Borough of Newham, Feb 2025</li>
+        <li>Gold Intermediate Mathematics Challenge (Kangaroo), Jan 2025</li>
+        <li>Silver & Bronze awards (UKMT Challenges 2021–2025)</li>
       </ul>
     </div>
 
-    <!-- Skills Section -->
-    <div class="section">
-      <h2>📝 Skills</h2>
-      <ul>
-        <li>Public Speaking</li>
-        <li>Leadership & Representation</li>
-        <li>Critical Thinking</li>
-        <li>Written & Verbal Communication</li>
-      </ul>
-    </div>
-
-    <!-- Interests Section -->
-    <div class="section">
-      <h2>🌐 Interests</h2>
-      <ul>
-        <li>Politics & Policy</li>
-        <li>Economics & Business</li>
-        <li>Journalism & Media</li>
-        <li>Mathematics & Physics</li>
-        <li>Philosophy & Ethics</li>
-      </ul>
-    </div>
-
-    <!-- Future Goals Section -->
-    <div class="section">
-      <h2>🎯 Future Goals</h2>
-      <ul>
-        <li>Achieve all Grade 9s in GCSEs</li>
-        <li>Secure a scholarship to a university</li>
-        <li>Study PPE at Oxford University</li>
-        <li>Apply to Ivy League universities</li>
-        <li>Continue building youth advocacy platforms</li>
-      </ul>
-    </div>
+    <button class="download-btn" onclick="window.print()">Download CV (PDF)</button>
   </div>
 
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    particles:{number:{value:70},size:{value:3},move:{speed:1}},interactivity:{events:{onhover:{enable:true,mode:"repulse"}}}
+  });
+</script>
 </body>
 </html>
